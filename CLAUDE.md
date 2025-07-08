@@ -172,6 +172,108 @@ Each AI provider requires specific configuration:
 - `packages/data-schemas/` - Database schema definitions
 - `packages/api/` - Shared API utilities
 
+## Settings System Implementation
+
+### Settings Dialog Architecture
+The settings system uses a modal dialog approach with tabbed navigation:
+- **Main Settings Component**: `client/src/components/Nav/Settings.tsx`
+- **Settings Tabs**: Located in `client/src/components/Nav/SettingsTabs/`
+- **State Management**: Uses Recoil atoms in `client/src/store/settings.ts`
+- **Access**: Through account dropdown menu, no dedicated route
+
+### Settings Tab Structure
+Each settings tab is organized as follows:
+
+#### 1. General Settings (`General/`)
+- `General.tsx` - Main general settings tab
+- `ArchivedChats.tsx` - Archived chats management
+- `LangSelector.tsx` - Language selection
+- `ThemeSelector.tsx` - Theme selection
+
+#### 2. Chat Settings (`Chat/`)
+- `Chat.tsx` - Main chat settings tab
+- `ChatDirection.tsx` - LTR/RTL chat direction
+- `FontSizeSelector.tsx` - Font size configuration
+- `ForkSettings.tsx` - Fork conversation settings
+- `SaveBadgesState.tsx` - Badge state persistence
+- `ShowThinking.tsx` - AI thinking process display
+
+#### 3. Speech Settings (`Speech/`)
+- `Speech.tsx` - Main speech settings tab
+- `ConversationModeSwitch.tsx` - Conversation mode toggle
+- **STT (Speech-to-Text)**: Engine, language, auto-transcribe, decibel settings
+- **TTS (Text-to-Speech)**: Engine, voice, playback rate, caching settings
+
+#### 4. Commands Settings (`Commands/`)
+- `Commands.tsx` - Main commands tab
+- `AtCommandSwitch.tsx` - @ command toggle
+- `PlusCommandSwitch.tsx` - + command toggle
+- `SlashCommandSwitch.tsx` - / command toggle
+
+#### 5. Data Settings (`Data/`)
+- `Data.tsx` - Data management tab
+- `ClearChats.tsx` - Clear chat history
+- `DeleteCache.tsx` - Delete cache
+- `ImportConversations.tsx` - Import conversations
+- `RevokeAllKeys.tsx` - Revoke API keys
+- `SharedLinks.tsx` - Manage shared links
+
+#### 6. Balance Settings (`Balance/`)
+- `Balance.tsx` - Credits/balance tab
+- `AutoRefillSettings.tsx` - Auto-refill configuration
+- `TokenCreditsItem.tsx` - Token credits display
+
+#### 7. Account Settings (`Account/`)
+- `Account.tsx` - Account settings tab
+- `Avatar.tsx` - Avatar management
+- `DeleteAccount.tsx` - Account deletion
+- `TwoFactorAuthentication.tsx` - 2FA settings
+- `DisplayUsernameMessages.tsx` - Username display settings
+
+#### 8. Personalization Settings
+- `Personalization.tsx` - Memory and personalization features
+- Conditionally rendered based on feature access
+
+### Settings State Management
+Settings are persisted using Recoil atoms with localStorage:
+
+#### Static Atoms (non-persisted)
+- `abortScroll`, `showFiles`, `optionSettings`, `showPluginStoreDialog`
+- `showAgentSettings`, `currentSettingsView`, `showPopover`
+
+#### Persisted Settings (localStorage)
+- **General**: `autoScroll`, `hideSidePanel`, `fontSize`, `enableUserMsgMarkdown`
+- **Chat**: `enterToSend`, `maximizeChatSpace`, `chatDirection`, `showCode`
+- **Beta**: `modularChat`, `LaTeXParsing`, `centerFormOnLanding`, `showFooter`
+- **Commands**: `atCommand`, `plusCommand`, `slashCommand`
+- **Speech**: `speechToText`, `textToSpeech`, various engine/voice settings
+- **Account**: `UsernameDisplay`
+
+### Adding New Settings
+To add a new setting:
+
+1. **Create UI Component**: Add to appropriate tab in `client/src/components/Nav/SettingsTabs/`
+2. **Add State Atom**: Define in `client/src/store/settings.ts`
+3. **Use localStorage**: Use `atomWithLocalStorage` for persistence
+4. **Update Tab Component**: Import and render in the appropriate tab component
+5. **Add to Exports**: Update `index.ts` if creating new components
+
+### Settings Access Pattern
+```typescript
+// Import from store
+import { useRecoilState } from 'recoil';
+import store from '~/store';
+
+// Use in component
+const [autoScroll, setAutoScroll] = useRecoilState(store.autoScroll);
+```
+
+### Conditional Settings
+Some settings are conditionally displayed based on:
+- **Balance Settings**: Shown if `startupConfig?.balance?.enabled`
+- **Personalization**: Shown if `hasAnyPersonalizationFeature`
+- **Beta Tab**: Currently includes experimental features
+
 ## Deployment
 
 ### Docker Deployment

@@ -87,7 +87,7 @@ const tokenValues = Object.assign(
     'gpt-4.1': { prompt: 2, completion: 8 },
     'gpt-4.5': { prompt: 75, completion: 150 },
     'gpt-4o-mini': { prompt: 0.15, completion: 0.6 },
-    'gpt-4o': { prompt: 2.5, completion: 10 },
+    'gpt-4o': { prompt: 1.1, completion: 1.5 },
     'gpt-4o-2024-05-13': { prompt: 5, completion: 15 },
     'gpt-4-1106': { prompt: 10, completion: 30 },
     'gpt-3.5-turbo-0125': { prompt: 0.5, completion: 1.5 },
@@ -101,7 +101,7 @@ const tokenValues = Object.assign(
     'claude-3.5-haiku': { prompt: 0.8, completion: 4 },
     'claude-3-haiku': { prompt: 0.25, completion: 1.25 },
     'claude-sonnet-4': { prompt: 3, completion: 15 },
-    'claude-opus-4': { prompt: 15, completion: 75 },
+    'claude-opus-4': { prompt: 1, completion: 1 },
     'claude-2.1': { prompt: 8, completion: 24 },
     'claude-2': { prompt: 8, completion: 24 },
     'claude-instant': { prompt: 0.8, completion: 2.4 },
@@ -119,7 +119,7 @@ const tokenValues = Object.assign(
     'gemma-3-27b': { prompt: 0, completion: 0 }, // https://ai.google.dev/pricing
     'gemini-2.0-flash-lite': { prompt: 0.075, completion: 0.3 },
     'gemini-2.0-flash': { prompt: 0.1, completion: 0.4 },
-    'gemini-2.0': { prompt: 0, completion: 0 }, // https://ai.google.dev/pricing
+    'gemini-2.0': { prompt: 1.0, completion: 1.0 }, // https://ai.google.dev/pricing
     'gemini-2.5-pro': { prompt: 1.25, completion: 10 },
     'gemini-2.5-flash': { prompt: 0.15, completion: 3.5 },
     'gemini-2.5': { prompt: 0, completion: 0 }, // Free for a period of time
